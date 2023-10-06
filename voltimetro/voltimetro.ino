@@ -4,11 +4,11 @@
 int led0 = 0;
 int led1 = 1;
 int led2 = 2;
-int led3 = 9;
+int led3 = 8;
 
 // Switches
-int serialcontroler = 1;
-int switchAC_DC = 1;
+int serialcontroler = 10;
+int switchAC_DC = 9;
 
 // Entradas Analogicas
 float voltage0;
@@ -23,8 +23,8 @@ int entrada2 = 2;
 float voltage3;
 int entrada3 = 3;
 
-// Entrada Digital
-int signo = 1; 
+float valorsigno;
+int signo = 5;
 
 void setup() {
   // Se establecen los pines con LEDs como salida
@@ -32,11 +32,30 @@ void setup() {
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
+  // Switches del circuito
+  pinMode(serialcontroler, INPUT);
+  pinMode(switchAC_DC, INPUT);
   // Se inicia la comunicacion serial para debbuging
   Serial.begin(9600);
 }
 
 void loop() {
+  int valserial = digitalRead(serialcontroler);
+  if (valserial==1){
+    // Hay comunicacion serial
+  }
+  int modoAC_DC = digitalRead(switchAC_DC);
+
+  // Se imprime el estado de los switches para debbuging
+  Serial.print("valserail: ");
+  Serial.println(valserial);
+  Serial.print("modoAC_DC: ");
+  Serial.println(modoAC_DC);
+
+  // Se leee el signo que se encuentra en la entrada analogica
+  float signotemp = analogRead(signo); // Leemos el valor analogico el cual por el ADC es un valor entero de 0 a 1023
+  valorsigno = signotemp * (5.0 / 1023.0); // Se convierte el valor leido a un rango de 0v-5v
+
   float valortemp0 = analogRead(entrada0); // Leemos el valor analogico el cual por el ADC es un valor entero de 0 a 1023
   voltage0 = valortemp0 * (5.0 / 1023.0); // Se convierte el valor leido a un rango de 0v-5v
   if (voltage0>=4){ // Se revisa si el voltaje medido es 20v o mas para enceder el LED de precuacion
