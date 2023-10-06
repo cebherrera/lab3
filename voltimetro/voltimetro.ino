@@ -1,14 +1,20 @@
 #include <PCD8544.h>
 
+// Instancia de Pantalla
+static PCD8544 lcd;
+
+// Contador para pantalla 
+int counter = 0;
+
 // Leds para indicar cuandos se esta midiendo un voltaje mayor a 20 v
 int led0 = 0;
 int led1 = 1;
 int led2 = 2;
-int led3 = 8;
+int led3 = 8; 
 
 // Switches
-int serialcontroler = 10;
-int switchAC_DC = 9;
+int serialcontroler = 13;
+int switchAC_DC = 12;
 
 // Entradas Analogicas
 float voltage0;
@@ -27,6 +33,9 @@ float valorsigno;
 int signo = 5;
 
 void setup() {
+  // Configuracion de Pantalla
+  lcd.begin() ; // default resolution is 84x48
+
   // Se establecen los pines con LEDs como salida
   pinMode(led0, OUTPUT);
   pinMode(led1, OUTPUT);
@@ -40,10 +49,25 @@ void setup() {
 }
 
 void loop() {
+  // Se limpia pantalla
+  lcd.clear();
+  // Write some text on the first line...
+  lcd.setCursor(0, 0);
+  lcd.print("Hello, World!");
+
+  // Write the counter on the second line...
+  lcd.setCursor(0, 1);
+  lcd.print(counter);
+
+  delay(200);
+  counter++;
+
+  /*
   int valserial = digitalRead(serialcontroler);
   if (valserial==1){
     // Hay comunicacion serial
   }
+  // Si modoAC_DC es un 1 es modo AC, si es un 0 es modo DC
   int modoAC_DC = digitalRead(switchAC_DC);
 
   // Se imprime el estado de los switches para debbuging
@@ -94,4 +118,5 @@ void loop() {
   Serial.println(voltage2);
   Serial.print("Voltage3: ");
   Serial.println(voltage3);
+  */
 }
