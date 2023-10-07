@@ -29,7 +29,7 @@ int entrada3 = 3;
 
 // Entrada de Signo Analogicas
 float valorsigno0;
-int signo0 = 5;
+int signo0 = 4;
 
 float valorsigno1;
 int signo1 = 5;
